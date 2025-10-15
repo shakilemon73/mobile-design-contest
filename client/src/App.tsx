@@ -19,6 +19,7 @@ import EditDemosPage from "@/pages/artist/EditDemosPage";
 import ConnectionsPage from "@/pages/producer/ConnectionsPage";
 import NotificationsPage from "@/pages/producer/NotificationsPage";
 import GroupsPage from "@/pages/producer/GroupsPage";
+import ProducerProfilePage from "@/pages/producer/ProfilePage";
 import SearchPage from "@/pages/SearchPage";
 
 function AppContent({ userRole }: { userRole: "artist" | "producer" }) {
@@ -68,7 +69,7 @@ function AppContent({ userRole }: { userRole: "artist" | "producer" }) {
 
   useEffect(() => {
     if (location === "/") {
-      setLocation(userRole === "artist" ? "/profile" : "/connections");
+      setLocation("/profile");
     }
   }, [location, userRole, setLocation]);
 
@@ -92,8 +93,8 @@ function AppContent({ userRole }: { userRole: "artist" | "producer" }) {
               </>
             ) : (
               <>
-                <Route path="/" component={ConnectionsPage} />
-                <Route path="/profile" component={EditProfilePage} />
+                <Route path="/" component={ProducerProfilePage} />
+                <Route path="/profile" component={ProducerProfilePage} />
                 <Route path="/connections" component={ConnectionsPage} />
                 <Route path="/notifications" component={NotificationsPage} />
                 <Route path="/groups" component={GroupsPage} />

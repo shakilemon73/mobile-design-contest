@@ -167,9 +167,9 @@ export default function SearchPage() {
 
                 {/* CTA */}
                 <div className="flex-shrink-0">
-                  <Button size="sm" className="h-9 px-4 rounded-full bg-gradient-to-r from-primary to-brand-coral">
+                  <div className="h-9 px-4 rounded-full bg-gradient-to-r from-primary to-brand-coral text-primary-foreground font-medium text-sm flex items-center justify-center">
                     View
-                  </Button>
+                  </div>
                 </div>
               </div>
             </button>

@@ -96,6 +96,7 @@ export default function NotificationsPage() {
                 : 'bg-card border border-border hover:bg-muted/30'
             }`}
             onClick={() => console.log(`Clicked notification from ${notification.artistName}`)}
+            data-testid={`button-notification-${notification.id}`}
           >
             <div className="flex items-start gap-3">
               <div className="h-10 w-10 rounded-full bg-gradient-to-br from-primary/20 to-brand-cyan/20 flex items-center justify-center font-semibold text-xs flex-shrink-0">

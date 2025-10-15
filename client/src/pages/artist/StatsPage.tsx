@@ -142,6 +142,7 @@ export default function StatsPage() {
                 key={view.name}
                 className="w-full flex items-center gap-3 p-4 rounded-xl bg-card border border-border hover:border-primary/30 transition-all text-left"
                 onClick={() => console.log(`View ${view.name}`)}
+                data-testid={`button-recent-view-${view.avatar.toLowerCase()}`}
               >
                 <div className="h-10 w-10 rounded-full bg-gradient-to-br from-primary/10 to-brand-cyan/10 flex items-center justify-center font-semibold text-xs flex-shrink-0">
                   {view.avatar}

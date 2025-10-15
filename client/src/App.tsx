@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { Switch, Route, useLocation } from "wouter";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./lib/queryClient";
 import { Toaster } from "@/components/ui/toaster";
@@ -20,9 +21,8 @@ import NotificationsPage from "@/pages/producer/NotificationsPage";
 import GroupsPage from "@/pages/producer/GroupsPage";
 import SearchPage from "@/pages/SearchPage";
 
-function App() {
-  const [userRole, setUserRole] = useState<"artist" | "producer" | null>(null);
-  const [activeTab, setActiveTab] = useState("me");
+function AppContent({ userRole }: { userRole: "artist" | "producer" }) {
+  const [location, setLocation] = useLocation();
   const [currentDemoIndex, setCurrentDemoIndex] = useState(0);
 
   const demos = [
@@ -31,6 +31,96 @@ function App() {
     { id: "3", title: "Documentary Narration", duration: "2:10" },
     { id: "4", title: "Animation Voice", duration: "1:05" },
   ];
+
+  const getActiveTab = () => {
+    if (location === "/" || location.startsWith("/profile")) return "me";
+    if (location.startsWith("/followers") || location.startsWith("/connections")) return "them";
+    if (location.startsWith("/stats") || location.startsWith("/notifications")) return "stats";
+    if (location.startsWith("/edit")) return "edit";
+    if (location.startsWith("/lists") || location.startsWith("/groups") || location.startsWith("/shop")) return "label";
+    if (location.startsWith("/search")) return "search";
+    return "me";
+  };
+
+  const handleTabChange = (tab: string) => {
+    if (userRole === "artist") {
+      const routes: Record<string, string> = {
+        me: "/profile",
+        them: "/followers",
+        stats: "/stats",
+        edit: "/edit-profile",
+        label: "/lists",
+        search: "/search",
+      };
+      setLocation(routes[tab] || "/profile");
+    } else {
+      const routes: Record<string, string> = {
+        me: "/profile",
+        them: "/connections",
+        stats: "/notifications",
+        edit: "/edit-profile",
+        label: "/groups",
+        search: "/search",
+      };
+      setLocation(routes[tab] || "/connections");
+    }
+  };
+
+  useEffect(() => {
+    if (location === "/") {
+      setLocation(userRole === "artist" ? "/profile" : "/connections");
+    }
+  }, [location, userRole, setLocation]);
+
+  return (
+    <div className="min-h-screen bg-background">
+      <main className="pb-16">
+        <Switch>
+          {userRole === "artist" ? (
+            <>
+              <Route path="/" component={ProfilePage} />
+              <Route path="/profile" component={ProfilePage} />
+              <Route path="/followers" component={FollowersPage} />
+              <Route path="/stats" component={StatsPage} />
+              <Route path="/shop" component={ShopPage} />
+              <Route path="/lists" component={ListsPage} />
+              <Route path="/edit-profile" component={EditProfilePage} />
+              <Route path="/edit-demos" component={EditDemosPage} />
+              <Route path="/search" component={SearchPage} />
+            </>
+          ) : (
+            <>
+              <Route path="/" component={ConnectionsPage} />
+              <Route path="/profile" component={EditProfilePage} />
+              <Route path="/connections" component={ConnectionsPage} />
+              <Route path="/notifications" component={NotificationsPage} />
+              <Route path="/groups" component={GroupsPage} />
+              <Route path="/edit-profile" component={EditProfilePage} />
+              <Route path="/search" component={SearchPage} />
+            </>
+          )}
+        </Switch>
+      </main>
+
+      {userRole === "artist" && (
+        <AudioPlayer
+          demos={demos}
+          currentIndex={currentDemoIndex}
+          onDemoChange={setCurrentDemoIndex}
+        />
+      )}
+
+      <BottomNav
+        activeTab={getActiveTab()}
+        onTabChange={handleTabChange}
+        userType={userRole}
+      />
+    </div>
+  );
+}
+
+function App() {
+  const [userRole, setUserRole] = useState<"artist" | "producer" | null>(null);
 
   if (!userRole) {
     return (
@@ -43,66 +133,10 @@ function App() {
     );
   }
 
-  const renderArtistContent = () => {
-    switch (activeTab) {
-      case "me":
-        return <ProfilePage />;
-      case "them":
-        return <FollowersPage />;
-      case "stats":
-        return <StatsPage />;
-      case "edit":
-        return <EditProfilePage />;
-      case "label":
-        return <ListsPage />;
-      case "search":
-        return <SearchPage />;
-      default:
-        return <ProfilePage />;
-    }
-  };
-
-  const renderProducerContent = () => {
-    switch (activeTab) {
-      case "me":
-        return <EditProfilePage />;
-      case "them":
-        return <ConnectionsPage />;
-      case "stats":
-        return <NotificationsPage />;
-      case "edit":
-        return <EditProfilePage />;
-      case "label":
-        return <GroupsPage />;
-      case "search":
-        return <SearchPage />;
-      default:
-        return <ConnectionsPage />;
-    }
-  };
-
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <div className="min-h-screen bg-background">
-          <main className="pb-16">
-            {userRole === "artist" ? renderArtistContent() : renderProducerContent()}
-          </main>
-
-          {userRole === "artist" && (
-            <AudioPlayer
-              demos={demos}
-              currentIndex={currentDemoIndex}
-              onDemoChange={setCurrentDemoIndex}
-            />
-          )}
-
-          <BottomNav
-            activeTab={activeTab}
-            onTabChange={setActiveTab}
-            userType={userRole}
-          />
-        </div>
+        <AppContent userRole={userRole} />
         <Toaster />
       </TooltipProvider>
     </QueryClientProvider>

@@ -73,48 +73,51 @@ function AppContent({ userRole }: { userRole: "artist" | "producer" }) {
   }, [location, userRole, setLocation]);
 
   return (
-    <div className="min-h-screen bg-background">
-      <main className="pb-16">
-        <Switch>
-          {userRole === "artist" ? (
-            <>
-              <Route path="/" component={ProfilePage} />
-              <Route path="/profile" component={ProfilePage} />
-              <Route path="/followers" component={FollowersPage} />
-              <Route path="/stats" component={StatsPage} />
-              <Route path="/shop" component={ShopPage} />
-              <Route path="/lists" component={ListsPage} />
-              <Route path="/edit-profile" component={EditProfilePage} />
-              <Route path="/edit-demos" component={EditDemosPage} />
-              <Route path="/search" component={SearchPage} />
-            </>
-          ) : (
-            <>
-              <Route path="/" component={ConnectionsPage} />
-              <Route path="/profile" component={EditProfilePage} />
-              <Route path="/connections" component={ConnectionsPage} />
-              <Route path="/notifications" component={NotificationsPage} />
-              <Route path="/groups" component={GroupsPage} />
-              <Route path="/edit-profile" component={EditProfilePage} />
-              <Route path="/search" component={SearchPage} />
-            </>
-          )}
-        </Switch>
-      </main>
+    // Mobile-first: Fixed width container to simulate real mobile device
+    <div className="min-h-screen bg-background flex items-start justify-center">
+      <div className="w-full max-w-[430px] min-h-screen bg-background relative shadow-2xl">
+        <main className="pb-16 overflow-x-hidden">
+          <Switch>
+            {userRole === "artist" ? (
+              <>
+                <Route path="/" component={ProfilePage} />
+                <Route path="/profile" component={ProfilePage} />
+                <Route path="/followers" component={FollowersPage} />
+                <Route path="/stats" component={StatsPage} />
+                <Route path="/shop" component={ShopPage} />
+                <Route path="/lists" component={ListsPage} />
+                <Route path="/edit-profile" component={EditProfilePage} />
+                <Route path="/edit-demos" component={EditDemosPage} />
+                <Route path="/search" component={SearchPage} />
+              </>
+            ) : (
+              <>
+                <Route path="/" component={ConnectionsPage} />
+                <Route path="/profile" component={EditProfilePage} />
+                <Route path="/connections" component={ConnectionsPage} />
+                <Route path="/notifications" component={NotificationsPage} />
+                <Route path="/groups" component={GroupsPage} />
+                <Route path="/edit-profile" component={EditProfilePage} />
+                <Route path="/search" component={SearchPage} />
+              </>
+            )}
+          </Switch>
+        </main>
 
-      {userRole === "artist" && (
-        <AudioPlayer
-          demos={demos}
-          currentIndex={currentDemoIndex}
-          onDemoChange={setCurrentDemoIndex}
+        {userRole === "artist" && (
+          <AudioPlayer
+            demos={demos}
+            currentIndex={currentDemoIndex}
+            onDemoChange={setCurrentDemoIndex}
+          />
+        )}
+
+        <BottomNav
+          activeTab={getActiveTab()}
+          onTabChange={handleTabChange}
+          userType={userRole}
         />
-      )}
-
-      <BottomNav
-        activeTab={getActiveTab()}
-        onTabChange={handleTabChange}
-        userType={userRole}
-      />
+      </div>
     </div>
   );
 }

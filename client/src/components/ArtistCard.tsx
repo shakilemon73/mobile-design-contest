@@ -20,19 +20,19 @@ export default function ArtistCard({ name, bio, avatarUrl, onPlay, onClick }: Ar
 
   return (
     <Card
-      className="p-4 hover-elevate cursor-pointer"
+      className="p-5 hover-elevate cursor-pointer group"
       onClick={onClick}
       data-testid={`artist-${name}`}
     >
-      <div className="flex flex-col items-center gap-3 text-center">
-        <Avatar className="h-16 w-16">
+      <div className="flex flex-col items-center gap-4 text-center">
+        <Avatar className="h-20 w-20 border-2 border-muted group-hover:border-primary transition-colors">
           <AvatarImage src={avatarUrl} alt={name} />
-          <AvatarFallback>{initials}</AvatarFallback>
+          <AvatarFallback className="text-lg font-semibold">{initials}</AvatarFallback>
         </Avatar>
-        <div className="space-y-1">
-          <h4 className="font-semibold">{name}</h4>
+        <div className="space-y-2 w-full">
+          <h4 className="font-semibold text-base leading-tight">{name}</h4>
           {bio && (
-            <p className="text-xs text-muted-foreground line-clamp-2">{bio}</p>
+            <p className="text-xs text-muted-foreground line-clamp-2 leading-relaxed">{bio}</p>
           )}
         </div>
         {onPlay && (
@@ -44,9 +44,9 @@ export default function ArtistCard({ name, bio, avatarUrl, onPlay, onClick }: Ar
               onPlay();
             }}
             data-testid={`button-play-artist-${name}`}
-            className="gap-2"
+            className="gap-2 w-full"
           >
-            <Play className="h-3 w-3" />
+            <Play className="h-3.5 w-3.5" />
             Play Demo
           </Button>
         )}

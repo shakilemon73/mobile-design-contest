@@ -1,7 +1,7 @@
-import { Play, Pause, SkipBack, SkipForward } from "lucide-react";
+import { Play, Pause, SkipBack, SkipForward, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
-import { useState, useRef, useEffect } from "react";
+import { useState } from "react";
 
 interface AudioPlayerProps {
   demos: {
@@ -16,20 +16,16 @@ interface AudioPlayerProps {
 export default function AudioPlayer({ demos, currentIndex, onDemoChange }: AudioPlayerProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
-  const [currentTime, setCurrentTime] = useState("0:00");
+  const [isLiked, setIsLiked] = useState(false);
 
   const currentDemo = demos[currentIndex];
 
-  const togglePlay = () => {
-    setIsPlaying(!isPlaying);
-    console.log(isPlaying ? "Paused" : "Playing");
-  };
-
+  const togglePlay = () => setIsPlaying(!isPlaying);
+  
   const handlePrevious = () => {
     if (currentIndex > 0) {
       onDemoChange(currentIndex - 1);
       setProgress(0);
-      setCurrentTime("0:00");
     }
   };
 
@@ -37,79 +33,77 @@ export default function AudioPlayer({ demos, currentIndex, onDemoChange }: Audio
     if (currentIndex < demos.length - 1) {
       onDemoChange(currentIndex + 1);
       setProgress(0);
-      setCurrentTime("0:00");
     }
   };
 
-  const handleProgressChange = (value: number[]) => {
-    setProgress(value[0]);
-    const totalSeconds = parseDuration(currentDemo.duration);
-    const currentSeconds = Math.floor((value[0] / 100) * totalSeconds);
-    setCurrentTime(formatTime(currentSeconds));
-  };
-
-  const parseDuration = (duration: string): number => {
-    const parts = duration.split(":");
-    return parseInt(parts[0]) * 60 + parseInt(parts[1]);
-  };
-
-  const formatTime = (seconds: number): string => {
-    const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${mins}:${secs.toString().padStart(2, "0")}`;
-  };
-
   return (
-    <div className="fixed bottom-16 left-0 right-0 bg-card border-t border-card-border z-40">
-      <div className="max-w-screen-xl mx-auto px-4 py-3">
-        <div className="flex flex-col gap-2">
-          <div className="flex items-center justify-between">
-            <div className="flex-1 min-w-0">
-              <h4 className="font-semibold text-sm truncate" data-testid="text-current-demo">
-                {currentDemo.title}
-              </h4>
-              <p className="text-xs text-muted-foreground">
-                {currentTime} / {currentDemo.duration}
-              </p>
-            </div>
-            <div className="flex items-center gap-1">
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={handlePrevious}
-                disabled={currentIndex === 0}
-                data-testid="button-previous"
-              >
-                <SkipBack className="h-4 w-4" />
-              </Button>
-              <Button
-                variant="default"
-                size="icon"
-                onClick={togglePlay}
-                data-testid="button-play-pause"
-                className="bg-primary hover:bg-primary/90"
-              >
-                {isPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
-              </Button>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={handleNext}
-                disabled={currentIndex === demos.length - 1}
-                data-testid="button-next"
-              >
-                <SkipForward className="h-4 w-4" />
-              </Button>
+    // Gaurav: Clean, minimal player design
+    <div className="fixed bottom-16 left-0 right-0 bg-card/98 backdrop-blur-xl border-t border-border z-40 shadow-2xl">
+      <div className="w-full max-w-[430px] mx-auto px-5 py-4">
+        {/* Progress Bar - Luke: Touch-friendly */}
+        <Slider
+          value={[progress]}
+          onValueChange={(v) => setProgress(v[0])}
+          max={100}
+          step={1}
+          className="w-full mb-4"
+          aria-label="Playback progress"
+        />
+
+        {/* Player Controls */}
+        <div className="flex items-center gap-4">
+          {/* Track Info - Typography */}
+          <div className="flex-1 min-w-0">
+            <div className="font-semibold text-sm truncate mb-0.5">{currentDemo.title}</div>
+            <div className="text-xs text-muted-foreground font-mono">
+              0:00 / {currentDemo.duration}
             </div>
           </div>
-          <Slider
-            value={[progress]}
-            onValueChange={handleProgressChange}
-            max={100}
-            step={1}
-            className="w-full"
-            data-testid="slider-progress"
-          />
+
+          {/* Controls - Don Norman: Clear affordances */}
+          <div className="flex items-center gap-2 flex-shrink-0">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={handlePrevious}
+              disabled={currentIndex === 0}
+              className="h-9 w-9"
+              aria-label="Previous track"
+            >
+              <SkipBack className="h-4 w-4" />
+            </Button>
+
+            {/* Primary Play Button */}
+            <Button
+              onClick={togglePlay}
+              size="icon"
+              className="h-11 w-11 rounded-full bg-gradient-to-r from-primary to-brand-coral hover:opacity-90 shadow-lg"
+              aria-label={isPlaying ? "Pause" : "Play"}
+            >
+              {isPlaying ? <Pause className="h-5 w-5" /> : <Play className="h-5 w-5 ml-0.5" />}
+            </Button>
+
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={handleNext}
+              disabled={currentIndex === demos.length - 1}
+              className="h-9 w-9"
+              aria-label="Next track"
+            >
+              <SkipForward className="h-4 w-4" />
+            </Button>
+
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setIsLiked(!isLiked)}
+              className="h-9 w-9"
+              aria-label={isLiked ? "Unlike" : "Like"}
+            >
+              <Heart className={`h-5 w-5 transition-all ${isLiked ? 'fill-primary text-primary scale-110' : ''}`} />
+            </Button>
+          </div>
         </div>
       </div>
     </div>

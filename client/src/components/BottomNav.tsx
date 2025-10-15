@@ -1,4 +1,4 @@
-import { Home, Search, BarChart3, Users, Settings } from "lucide-react";
+import { User, Users, BarChart3, Settings, Tag, Search } from "lucide-react";
 
 interface BottomNavProps {
   activeTab: string;
@@ -8,11 +8,12 @@ interface BottomNavProps {
 
 export default function BottomNav({ activeTab, onTabChange, userType }: BottomNavProps) {
   const tabs = [
-    { id: "me", icon: Home, label: "Home" },
-    { id: "search", icon: Search, label: "Search" },
+    { id: "me", icon: User, label: "Me" },
+    { id: "them", icon: Users, label: "Them" },
     { id: "stats", icon: BarChart3, label: "Stats" },
-    { id: "them", icon: Users, label: "Network" },
-    { id: "edit", icon: Settings, label: "Settings" },
+    { id: "edit", icon: Settings, label: "Edit" },
+    { id: "label", icon: Tag, label: "Label" },
+    { id: "search", icon: Search, label: "Search" },
   ];
 
   return (

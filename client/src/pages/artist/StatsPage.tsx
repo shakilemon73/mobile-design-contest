@@ -1,7 +1,10 @@
-import { TrendingUp, Users, Play, Eye, ArrowUp, Calendar } from "lucide-react";
+import { TrendingUp, Users, Play, Eye, ArrowUp, Calendar, Map } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { useLocation } from "wouter";
 
 export default function StatsPage() {
+  const [, setLocation] = useLocation();
   const stats = [
     { label: "Followers", value: "214", change: "+12%", changeValue: "+26", period: "this week", icon: Users, color: "from-primary to-brand-coral" },
     { label: "Total Plays", value: "4,847", change: "+24%", changeValue: "+932", period: "this week", icon: Play, color: "from-brand-cyan to-primary" },
@@ -25,14 +28,25 @@ export default function StatsPage() {
     <div className="min-h-screen bg-background pb-20">
       {/* Header - Clear page context */}
       <div className="sticky top-0 bg-background/95 backdrop-blur-xl border-b border-border z-10 px-6 py-5">
-        <div className="flex items-center gap-3 mb-2">
-          <div className="h-10 w-10 rounded-full bg-brand-green/10 flex items-center justify-center">
-            <TrendingUp className="h-5 w-5 text-brand-green" />
+        <div className="flex items-center justify-between gap-3 mb-2">
+          <div className="flex items-center gap-3">
+            <div className="h-10 w-10 rounded-full bg-brand-green/10 flex items-center justify-center">
+              <TrendingUp className="h-5 w-5 text-brand-green" />
+            </div>
+            <div>
+              <h1 className="text-2xl font-bold">Your Performance</h1>
+              <p className="text-sm text-muted-foreground">Track your growth and engagement</p>
+            </div>
           </div>
-          <div>
-            <h1 className="text-2xl font-bold">Your Performance</h1>
-            <p className="text-sm text-muted-foreground">Track your growth and engagement</p>
-          </div>
+          <Button 
+            size="icon" 
+            variant="outline"
+            onClick={() => setLocation("/map")}
+            className="h-10 w-10 rounded-full"
+            data-testid="button-map"
+          >
+            <Map className="h-5 w-5" />
+          </Button>
         </div>
       </div>
 

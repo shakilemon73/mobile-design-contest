@@ -1,9 +1,14 @@
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useRoute } from "wouter";
 
 export default function GroupDetailPage() {
-  const groupName = "Name of List";
+  const [, params] = useRoute("/group/:id");
+  const groupId = params?.id || "unknown";
+  
+  // In a real app, you'd fetch group data and artists based on groupId
+  const groupName = `Group ${groupId}`;
   
   const artists = [
     { id: "1", name: "Artist 1", avatar: "A1" },

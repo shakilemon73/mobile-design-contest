@@ -1,7 +1,14 @@
 import { Button } from "@/components/ui/button";
-import { Share, Instagram, Twitter, Globe, MapPin } from "lucide-react";
+import { Share, Instagram, Twitter, Globe } from "lucide-react";
+import { useRoute } from "wouter";
 
 export default function ArtistDetailPage() {
+  const [, params] = useRoute("/profile/:id");
+  const artistId = params?.id || "unknown";
+
+  // In a real app, you'd fetch artist data based on artistId
+  const artistName = `Artist ${artistId}`;
+  
   return (
     <div className="min-h-screen bg-background pb-20">
       {/* Header */}
@@ -15,8 +22,8 @@ export default function ArtistDetailPage() {
             </div>
           </div>
           <div>
-            <h1 className="text-2xl font-bold">User Name</h1>
-            <p className="text-sm text-muted-foreground">Voice Artist</p>
+            <h1 className="text-2xl font-bold">{artistName}</h1>
+            <p className="text-sm text-muted-foreground">Voice Artist • ID: {artistId}</p>
           </div>
         </div>
       </div>

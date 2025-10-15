@@ -1,8 +1,13 @@
 import { Input } from "@/components/ui/input";
-import { Search, Play } from "lucide-react";
+import { Search } from "lucide-react";
+import { useRoute } from "wouter";
 
 export default function ListDetailPage() {
-  const listName = "Gaming Voices";
+  const [, params] = useRoute("/list/:id");
+  const listId = params?.id || "unknown";
+  
+  // In a real app, you'd fetch list data and producers based on listId
+  const listName = `List ${listId}`;
   
   const producers = [
     { id: "1", name: "Producer 1", avatar: "P1" },

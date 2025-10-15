@@ -2,13 +2,20 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Play, Save } from "lucide-react";
+import { Save } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useRoute } from "wouter";
 
 export default function ArtistViewPage() {
+  const [, params] = useRoute("/artist/:id");
+  const artistId = params?.id || "unknown";
+  
   const { toast } = useToast();
   const [notes, setNotes] = useState("");
   const [isSaving, setIsSaving] = useState(false);
+  
+  // In a real app, you'd fetch artist data based on artistId
+  const artistName = `Artist ${artistId}`;
 
   const handleSave = () => {
     setIsSaving(true);
@@ -39,8 +46,8 @@ export default function ArtistViewPage() {
             UN
           </div>
           <div>
-            <h1 className="text-2xl font-bold">User Name</h1>
-            <p className="text-sm text-muted-foreground">Voice Artist</p>
+            <h1 className="text-2xl font-bold">{artistName}</h1>
+            <p className="text-sm text-muted-foreground">Voice Artist • ID: {artistId}</p>
           </div>
         </div>
       </div>

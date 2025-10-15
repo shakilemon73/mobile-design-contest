@@ -1,7 +1,11 @@
-import { MapPin, Minimize2 } from "lucide-react";
+import { MapPin, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export default function MapPage() {
+  const handleClose = () => {
+    window.history.back(); // Go back to previous page
+  };
+
   return (
     <div className="min-h-screen bg-background relative">
       {/* Map Placeholder */}
@@ -17,10 +21,11 @@ export default function MapPage() {
       <div className="fixed top-6 right-6 z-50">
         <Button 
           size="icon"
+          onClick={handleClose}
           className="h-12 w-12 rounded-full bg-background/95 backdrop-blur-xl border border-border shadow-lg"
           data-testid="button-exit-fullscreen"
         >
-          <Minimize2 className="h-5 w-5" />
+          <X className="h-5 w-5" />
         </Button>
       </div>
 

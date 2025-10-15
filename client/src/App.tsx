@@ -15,12 +15,17 @@ import ShopPage from "@/pages/artist/ShopPage";
 import ListsPage from "@/pages/artist/ListsPage";
 import EditProfilePage from "@/pages/artist/EditProfilePage";
 import EditDemosPage from "@/pages/artist/EditDemosPage";
+import ArtistDetailPage from "@/pages/artist/ArtistDetailPage";
+import ListDetailPage from "@/pages/artist/ListDetailPage";
 
 import ConnectionsPage from "@/pages/producer/ConnectionsPage";
 import NotificationsPage from "@/pages/producer/NotificationsPage";
 import GroupsPage from "@/pages/producer/GroupsPage";
 import ProducerProfilePage from "@/pages/producer/ProfilePage";
+import ArtistViewPage from "@/pages/producer/ArtistViewPage";
+import GroupDetailPage from "@/pages/producer/GroupDetailPage";
 import SearchPage from "@/pages/SearchPage";
+import MapPage from "@/pages/MapPage";
 
 function AppContent({ userRole }: { userRole: "artist" | "producer" }) {
   const [location, setLocation] = useLocation();
@@ -83,23 +88,29 @@ function AppContent({ userRole }: { userRole: "artist" | "producer" }) {
               <>
                 <Route path="/" component={ProfilePage} />
                 <Route path="/profile" component={ProfilePage} />
+                <Route path="/profile/:id" component={ArtistDetailPage} />
                 <Route path="/followers" component={FollowersPage} />
                 <Route path="/stats" component={StatsPage} />
                 <Route path="/shop" component={ShopPage} />
                 <Route path="/lists" component={ListsPage} />
+                <Route path="/list/:id" component={ListDetailPage} />
                 <Route path="/edit-profile" component={EditProfilePage} />
                 <Route path="/edit-demos" component={EditDemosPage} />
                 <Route path="/search" component={SearchPage} />
+                <Route path="/map" component={MapPage} />
               </>
             ) : (
               <>
                 <Route path="/" component={ProducerProfilePage} />
                 <Route path="/profile" component={ProducerProfilePage} />
                 <Route path="/connections" component={ConnectionsPage} />
+                <Route path="/artist/:id" component={ArtistViewPage} />
                 <Route path="/notifications" component={NotificationsPage} />
                 <Route path="/groups" component={GroupsPage} />
+                <Route path="/group/:id" component={GroupDetailPage} />
                 <Route path="/edit-profile" component={EditProfilePage} />
                 <Route path="/search" component={SearchPage} />
+                <Route path="/map" component={MapPage} />
               </>
             )}
           </Switch>

@@ -14,17 +14,17 @@
   --elevate-1: rgba(0,0,0, .03);
   --elevate-2: rgba(0,0,0, .08);
 
-  --background: 0 0% 98%;
+  --background: 0 0% 100%;
 
-  --foreground: 240 10% 8%;
+  --foreground: 0 0% 0%;
 
-  --border: 240 6% 90%;
+  --border: 0 0% 92%;
 
-  --card: 0 0% 96%;
+  --card: 0 0% 100%;
 
-  --card-foreground: 240 10% 8%;
+  --card-foreground: 0 0% 0%;
 
-  --card-border: 240 5% 88%;
+  --card-border: 0 0% 94%;
 
   --sidebar: 240 4% 94%;
 
@@ -48,17 +48,17 @@
 
   --popover-border: 240 5% 84%;
 
-  --primary: 333 72% 54%;
+  --primary: 211 100% 50%;
 
   --primary-foreground: 0 0% 100%;
 
-  --secondary: 240 6% 86%;
+  --secondary: 0 0% 96%;
 
-  --secondary-foreground: 240 10% 8%;
+  --secondary-foreground: 0 0% 0%;
 
-  --muted: 240 5% 90%;
+  --muted: 0 0% 96%;
 
-  --muted-foreground: 240 8% 35%;
+  --muted-foreground: 0 0% 45%;
 
   --accent: 188 65% 88%;
 
@@ -76,10 +76,10 @@
   --chart-4: 103 30% 50%;
   --chart-5: 188 65% 48%;
 
-  --font-sans: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-serif: Georgia, serif;
-  --font-mono: "JetBrains Mono", Menlo, monospace;
-  --radius: .5rem; /* 8px */
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", system-ui, sans-serif;
+  --font-serif: "New York", Georgia, serif;
+  --font-mono: "SF Mono", Menlo, Monaco, monospace;
+  --radius: 1rem; /* 16px - iOS style larger radius */
   --shadow-2xs: 0px 1px 2px 0px hsl(240 10% 8% / 0.05);
   --shadow-xs: 0px 1px 3px 0px hsl(240 10% 8% / 0.08);
   --shadow-sm: 0px 2px 4px -1px hsl(240 10% 8% / 0.06), 0px 1px 2px -1px hsl(240 10% 8% / 0.04);
@@ -132,17 +132,17 @@
   --elevate-1: rgba(255,255,255, .04);
   --elevate-2: rgba(255,255,255, .09);
 
-  --background: 240 10% 8%;
+  --background: 0 0% 0%;
 
-  --foreground: 0 0% 98%;
+  --foreground: 0 0% 100%;
 
-  --border: 240 8% 18%;
+  --border: 0 0% 18%;
 
-  --card: 240 8% 12%;
+  --card: 0 0% 10%;
 
-  --card-foreground: 0 0% 98%;
+  --card-foreground: 0 0% 100%;
 
-  --card-border: 240 7% 16%;
+  --card-border: 0 0% 15%;
 
   --sidebar: 240 6% 16%;
 
@@ -166,17 +166,17 @@
 
   --popover-border: 240 6% 18%;
 
-  --primary: 333 72% 54%;
+  --primary: 211 100% 50%;
 
   --primary-foreground: 0 0% 100%;
 
-  --secondary: 240 5% 22%;
+  --secondary: 0 0% 18%;
 
-  --secondary-foreground: 0 0% 98%;
+  --secondary-foreground: 0 0% 100%;
 
-  --muted: 240 6% 18%;
+  --muted: 0 0% 15%;
 
-  --muted-foreground: 0 0% 70%;
+  --muted-foreground: 0 0% 60%;
 
   --accent: 188 65% 22%;
 
@@ -351,5 +351,131 @@
   .border.active-elevate-2:not(.no-active-interaction-elevate)::after,
   .border.hover-elevate:not(.no-hover-interaction-elevate)::after {
     inset: -1px;
+  }
+
+  .blur-card {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+  }
+
+  .dark .blur-card {
+    background: rgba(28, 28, 30, 0.7);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+  }
+
+  .blur-nav {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .dark .blur-nav {
+    background: rgba(28, 28, 30, 0.9);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .ios-button {
+    @apply rounded-full px-6 py-3 font-medium text-base transition-all duration-200;
+  }
+
+  .ios-button-primary {
+    @apply bg-primary text-primary-foreground hover:opacity-90 active:scale-95;
+  }
+
+  .ios-button-secondary {
+    @apply bg-secondary text-secondary-foreground hover:opacity-90 active:scale-95;
+  }
+
+  .ios-input {
+    @apply rounded-xl bg-secondary border-0 px-4 py-3 text-base focus:ring-2 focus:ring-primary/50 transition-all;
+  }
+
+  .large-title {
+    font-size: 34px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+
+  .title-1 {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1.15;
+  }
+
+  .title-2 {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+  }
+
+  .title-3 {
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 1.25;
+  }
+
+  .headline {
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+  }
+
+  .body {
+    font-size: 17px;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    line-height: 1.4;
+  }
+
+  .callout {
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    line-height: 1.35;
+  }
+
+  .subheadline {
+    font-size: 15px;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    line-height: 1.35;
+  }
+
+  .footnote {
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    line-height: 1.35;
+  }
+
+  .caption-1 {
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: 1.35;
+  }
+
+  .caption-2 {
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    line-height: 1.35;
+  }
+
+  @supports (backdrop-filter: blur(20px)) {
+    .backdrop-blur-ios {
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+    }
   }
 }

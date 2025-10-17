@@ -17,9 +17,8 @@ export default function BottomNav({ activeTab, onTabChange, userType }: BottomNa
   ];
 
   return (
-    // Don Norman: Clear mapping, Luke: Mobile optimized
-    <nav className="fixed bottom-0 left-0 right-0 bg-background/98 backdrop-blur-xl border-t border-border z-50 safe-area-inset-bottom">
-      <div className="w-full max-w-[430px] mx-auto px-4 pt-2 pb-3 flex items-center justify-around">
+    <nav className="fixed bottom-0 left-0 right-0 blur-nav z-50 safe-area-inset-bottom">
+      <div className="w-full max-w-[430px] mx-auto px-2 pt-2 pb-3 flex items-center justify-around">
         {tabs.map((tab) => {
           const Icon = tab.icon;
           const isActive = activeTab === tab.id;
@@ -28,25 +27,17 @@ export default function BottomNav({ activeTab, onTabChange, userType }: BottomNa
               key={tab.id}
               onClick={() => onTabChange(tab.id)}
               data-testid={`button-nav-${tab.id}`}
-              className="flex flex-col items-center gap-1 min-w-[60px] py-2 transition-all"
+              className="flex flex-col items-center gap-1.5 min-w-[56px] py-1 transition-all active:scale-95"
               aria-label={tab.label}
               aria-current={isActive ? "page" : undefined}
             >
-              {/* Icon Container - Pablo: Clear visual feedback */}
-              <div className={`relative transition-all ${
-                isActive ? 'scale-110' : 'scale-100'
-              }`}>
-                <Icon className={`h-6 w-6 transition-colors ${
-                  isActive ? 'text-primary' : 'text-muted-foreground'
+              <div className="relative">
+                <Icon className={`h-6 w-6 transition-all ${
+                  isActive ? 'text-primary scale-110' : 'text-muted-foreground'
                 }`} />
-                {/* Active Indicator */}
-                {isActive && (
-                  <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-primary" />
-                )}
               </div>
 
-              {/* Label - Typography for readability */}
-              <span className={`text-[11px] font-medium transition-colors ${
+              <span className={`caption-2 transition-colors ${
                 isActive ? 'text-primary' : 'text-muted-foreground'
               }`}>
                 {tab.label}

@@ -37,10 +37,8 @@ export default function AudioPlayer({ demos, currentIndex, onDemoChange }: Audio
   };
 
   return (
-    // Gaurav: Clean, minimal player design
-    <div className="fixed bottom-16 left-0 right-0 bg-card/98 backdrop-blur-xl border-t border-border z-40 shadow-2xl">
-      <div className="w-full max-w-[430px] mx-auto px-5 py-4">
-        {/* Progress Bar - Luke: Touch-friendly */}
+    <div className="fixed bottom-16 left-0 right-0 blur-card z-40">
+      <div className="w-full max-w-[430px] mx-auto px-6 py-4">
         <Slider
           value={[progress]}
           onValueChange={(v) => setProgress(v[0])}
@@ -50,34 +48,30 @@ export default function AudioPlayer({ demos, currentIndex, onDemoChange }: Audio
           aria-label="Playback progress"
         />
 
-        {/* Player Controls */}
         <div className="flex items-center gap-4">
-          {/* Track Info - Typography */}
           <div className="flex-1 min-w-0">
-            <div className="font-semibold text-sm truncate mb-0.5">{currentDemo.title}</div>
-            <div className="text-xs text-muted-foreground font-mono">
+            <div className="subheadline font-semibold truncate mb-0.5">{currentDemo.title}</div>
+            <div className="caption-1 text-muted-foreground">
               0:00 / {currentDemo.duration}
             </div>
           </div>
 
-          {/* Controls - Don Norman: Clear affordances */}
-          <div className="flex items-center gap-2 flex-shrink-0">
+          <div className="flex items-center gap-1 flex-shrink-0">
             <Button
               variant="ghost"
               size="icon"
               onClick={handlePrevious}
               disabled={currentIndex === 0}
-              className="h-9 w-9"
+              className="h-10 w-10 rounded-full active:scale-90 transition-all"
               aria-label="Previous track"
             >
-              <SkipBack className="h-4 w-4" />
+              <SkipBack className="h-5 w-5" />
             </Button>
 
-            {/* Primary Play Button */}
             <Button
               onClick={togglePlay}
               size="icon"
-              className="h-11 w-11 rounded-full bg-gradient-to-r from-primary to-brand-coral hover:opacity-90 shadow-lg"
+              className="h-12 w-12 rounded-full bg-primary hover:opacity-90 shadow-lg active:scale-95 transition-all"
               aria-label={isPlaying ? "Pause" : "Play"}
             >
               {isPlaying ? <Pause className="h-5 w-5" /> : <Play className="h-5 w-5 ml-0.5" />}
@@ -88,17 +82,17 @@ export default function AudioPlayer({ demos, currentIndex, onDemoChange }: Audio
               size="icon"
               onClick={handleNext}
               disabled={currentIndex === demos.length - 1}
-              className="h-9 w-9"
+              className="h-10 w-10 rounded-full active:scale-90 transition-all"
               aria-label="Next track"
             >
-              <SkipForward className="h-4 w-4" />
+              <SkipForward className="h-5 w-5" />
             </Button>
 
             <Button
               variant="ghost"
               size="icon"
               onClick={() => setIsLiked(!isLiked)}
-              className="h-9 w-9"
+              className="h-10 w-10 rounded-full active:scale-90 transition-all"
               aria-label={isLiked ? "Unlike" : "Like"}
             >
               <Heart className={`h-5 w-5 transition-all ${isLiked ? 'fill-primary text-primary scale-110' : ''}`} />

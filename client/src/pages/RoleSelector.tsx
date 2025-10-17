@@ -1,5 +1,6 @@
-import { Mic, Briefcase, ArrowRight } from "lucide-react";
+import { Mic, Briefcase, ChevronRight } from "lucide-react";
 import logoVertical from "@assets/logo_vertical_1760520832507.png";
+import { BlurCard } from "@/components/ios/BlurCard";
 
 interface RoleSelectorProps {
   onSelectRole: (role: "artist" | "producer") => void;
@@ -7,72 +8,71 @@ interface RoleSelectorProps {
 
 export default function RoleSelector({ onSelectRole }: RoleSelectorProps) {
   return (
-    // Pablo Stanley: Clear, friendly onboarding
-    <div className="min-h-screen flex items-center justify-center p-6 bg-gradient-to-br from-background via-primary/5 to-background">
-      <div className="w-full max-w-md space-y-12 animate-in fade-in duration-700">
-        {/* Header - Clear value prop */}
-        <div className="text-center space-y-6">
-          <img src={logoVertical} alt="AudioTag" className="h-32 mx-auto" />
-          <div className="space-y-3">
-            <h1 className="text-3xl font-bold tracking-tight">Welcome to AudioTag</h1>
-            <p className="text-base text-muted-foreground leading-relaxed max-w-sm mx-auto">
+    <div className="min-h-screen flex items-center justify-center p-6 bg-background dark:bg-background">
+      <div className="w-full max-w-md space-y-16 animate-in fade-in duration-700">
+        <div className="text-center space-y-8">
+          <img 
+            src={logoVertical} 
+            alt="AudioTag" 
+            className="h-24 mx-auto opacity-90" 
+          />
+          <div className="space-y-4">
+            <h1 className="large-title">Welcome to AudioTag</h1>
+            <p className="body text-muted-foreground max-w-xs mx-auto">
               Choose how you'd like to get started with our voice talent platform
             </p>
           </div>
         </div>
 
-        {/* Role Cards - Conversion focused */}
         <div className="space-y-4">
-          {/* Artist Option */}
-          <button
+          <BlurCard
             onClick={() => onSelectRole("artist")}
-            data-testid="button-role-artist"
-            className="group w-full text-left rounded-2xl p-6 bg-card border-2 border-border hover:border-primary hover:shadow-xl transition-all"
+            className="cursor-pointer hover:scale-[1.02] active:scale-[0.98]"
           >
-            <div className="flex items-center gap-5">
-              {/* Icon - Peter Tarka: Bold visuals */}
-              <div className="h-14 w-14 rounded-xl bg-gradient-to-br from-primary to-brand-coral flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
-                <Mic className="h-7 w-7 text-white" />
+            <div 
+              className="flex items-center gap-4" 
+              data-testid="button-role-artist"
+            >
+              <div className="h-16 w-16 rounded-2xl bg-primary/10 dark:bg-primary/20 flex items-center justify-center flex-shrink-0">
+                <Mic className="h-8 w-8 text-primary" />
               </div>
 
-              {/* Content */}
-              <div className="flex-1">
-                <h2 className="text-xl font-bold mb-1">Voice Artist</h2>
-                <p className="text-sm text-muted-foreground leading-relaxed">
+              <div className="flex-1 min-w-0">
+                <h2 className="title-3 mb-1">Voice Artist</h2>
+                <p className="subheadline text-muted-foreground">
                   Showcase your demos and connect with producers
                 </p>
               </div>
 
-              {/* Arrow - Visual feedback */}
-              <ArrowRight className="h-5 w-5 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
+              <ChevronRight className="h-6 w-6 text-muted-foreground flex-shrink-0" />
             </div>
-          </button>
+          </BlurCard>
 
-          {/* Producer Option */}
-          <button
+          <BlurCard
             onClick={() => onSelectRole("producer")}
-            data-testid="button-role-producer"
-            className="group w-full text-left rounded-2xl p-6 bg-card border-2 border-border hover:border-brand-cyan hover:shadow-xl transition-all"
+            className="cursor-pointer hover:scale-[1.02] active:scale-[0.98]"
           >
-            <div className="flex items-center gap-5">
-              <div className="h-14 w-14 rounded-xl bg-gradient-to-br from-brand-cyan to-primary flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
-                <Briefcase className="h-7 w-7 text-white" />
+            <div 
+              className="flex items-center gap-4" 
+              data-testid="button-role-producer"
+            >
+              <div className="h-16 w-16 rounded-2xl bg-primary/10 dark:bg-primary/20 flex items-center justify-center flex-shrink-0">
+                <Briefcase className="h-8 w-8 text-primary" />
               </div>
 
-              <div className="flex-1">
-                <h2 className="text-xl font-bold mb-1">Producer</h2>
-                <p className="text-sm text-muted-foreground leading-relaxed">
+              <div className="flex-1 min-w-0">
+                <h2 className="title-3 mb-1">Producer</h2>
+                <p className="subheadline text-muted-foreground">
                   Discover talent and manage your connections
                 </p>
               </div>
 
-              <ArrowRight className="h-5 w-5 text-muted-foreground group-hover:text-brand-cyan group-hover:translate-x-1 transition-all" />
+              <ChevronRight className="h-6 w-6 text-muted-foreground flex-shrink-0" />
             </div>
-          </button>
+          </BlurCard>
         </div>
 
-        {/* Footer - Trust signals */}
-        <p className="text-center text-xs text-muted-foreground leading-relaxed">
+        <p className="text-center caption-1 text-muted-foreground px-4">
           By continuing, you agree to AudioTag's Terms of Service and Privacy Policy
         </p>
       </div>

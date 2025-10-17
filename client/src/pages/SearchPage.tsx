@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { Search, Star } from "lucide-react";
 import { BlurCard } from "@/components/ios/BlurCard";
-import { IOSInput } from "@/components/ios/IOSInput";
 import { LargeTitle } from "@/components/ios/LargeTitle";
-import { IOSButton } from "@/components/ios/IOSButton";
+import { PageContainer } from "@/components/ios/PageContainer";
 
 export default function SearchPage() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -18,10 +17,11 @@ export default function SearchPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-background pb-20">
-      <LargeTitle title="Search" />
+    <PageContainer>
+      <div className="min-h-screen bg-background pb-20">
+        <LargeTitle title="Search" />
 
-      <div className="px-6 space-y-6">
+        <div className="px-6 space-y-6">
         <div className="relative">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground z-10" />
           <input
@@ -42,6 +42,7 @@ export default function SearchPage() {
             {artists.map((artist) => (
               <BlurCard
                 key={artist.id}
+                size="compact"
                 onClick={() => console.log(`Viewing ${artist.name}`)}
               >
                 <div className="flex items-center gap-4">
@@ -75,7 +76,8 @@ export default function SearchPage() {
             ))}
           </div>
         </div>
+        </div>
       </div>
-    </div>
+    </PageContainer>
   );
 }

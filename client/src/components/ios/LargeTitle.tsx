@@ -21,11 +21,12 @@ export function LargeTitle({ title, className }: LargeTitleProps) {
   return (
     <div
       className={cn(
-        "sticky top-0 z-10 transition-all duration-300",
+        "sticky top-0 z-10 transition-all duration-300 blur-nav",
         isScrolled
-          ? "py-3 blur-nav"
-          : "py-6 bg-background/0"
+          ? "py-3 border-b border-border"
+          : "py-6 border-b border-transparent"
       )}
+      style={{ paddingTop: 'max(env(safe-area-inset-top), 0.5rem)' }}
     >
       <h1
         className={cn(

@@ -1,8 +1,11 @@
 import { useState } from "react";
-import { Play, Pause, Share2, QrCode } from "lucide-react";
+import { Share2, QrCode, MapPin, Globe, MessageCircle } from "lucide-react";
 import { BlurCard } from "@/components/ios/BlurCard";
 import { IOSButton } from "@/components/ios/IOSButton";
 import { LargeTitle } from "@/components/ios/LargeTitle";
+import { PageContainer } from "@/components/ios/PageContainer";
+import { TrustBadge } from "@/components/TrustBadge";
+import { InlineAudioPlayer } from "@/components/InlineAudioPlayer";
 
 export default function ProfilePage() {
   const [currentDemo, setCurrentDemo] = useState<number | null>(null);
@@ -15,21 +18,35 @@ export default function ProfilePage() {
   ];
 
   return (
-    <div className="min-h-screen bg-background pb-24">
-      <LargeTitle title="Profile" />
+    <PageContainer>
+      <div className="min-h-screen bg-background pb-24">
+        <LargeTitle title="Profile" />
 
-      <div className="px-6 space-y-6">
+        <div className="px-6 space-y-6">
         <BlurCard>
           <div className="space-y-6">
             <div className="flex items-center gap-4">
-              <div className="h-20 w-20 rounded-full bg-primary/10 dark:bg-primary/20 flex items-center justify-center flex-shrink-0">
+              <div className="h-20 w-20 rounded-full bg-primary/10 dark:bg-primary/20 flex items-center justify-center flex-shrink-0 relative">
                 <span className="title-1 text-primary">RC</span>
+                <div className="absolute -bottom-1 -right-1 h-6 w-6 bg-[hsl(var(--brand-green))] rounded-full border-2 border-background" title="Online now" />
               </div>
 
               <div className="flex-1 min-w-0">
-                <h2 className="title-2 mb-1">Robin Cousins</h2>
-                <p className="subheadline text-muted-foreground">London, UK</p>
+                <div className="flex items-center gap-2 mb-1">
+                  <h2 className="title-2">Robin Cousins</h2>
+                </div>
+                <div className="flex items-center gap-1.5 subheadline text-muted-foreground">
+                  <MapPin className="h-4 w-4" />
+                  <span>London, UK</span>
+                </div>
               </div>
+            </div>
+
+            {/* Trust Badges */}
+            <div className="flex flex-wrap gap-2">
+              <TrustBadge type="verified" />
+              <TrustBadge type="top" />
+              <TrustBadge type="pro" />
             </div>
 
             <div className="flex items-center justify-around py-2">
@@ -49,80 +66,66 @@ export default function ProfilePage() {
               </div>
             </div>
 
-            <p className="body text-foreground/80">
-              Professional voice artist specializing in commercial, gaming, and documentary work. 
-              10+ years bringing stories to life.
-            </p>
+            <div className="space-y-3">
+              <p className="body text-foreground/90">
+                Professional voice artist specializing in commercial, gaming, and documentary work. 
+                10+ years bringing stories to life.
+              </p>
+              
+              <div className="flex items-center gap-4 caption-1 text-muted-foreground">
+                <div className="flex items-center gap-1.5">
+                  <Globe className="h-4 w-4" />
+                  <span>English, Spanish</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <MessageCircle className="h-4 w-4" />
+                  <span>Responds in 2h</span>
+                </div>
+              </div>
+            </div>
 
             <div className="flex gap-3">
               <IOSButton 
                 variant="primary" 
                 className="flex-1"
-                data-testid="button-share-profile"
+                data-testid="button-hire"
               >
-                <Share2 className="h-4 w-4 mr-2" />
-                Share Profile
+                Request Quote
               </IOSButton>
               <button 
-                className="h-12 w-12 rounded-full bg-secondary hover:opacity-90 active:scale-95 flex items-center justify-center transition-all"
-                data-testid="button-qr-code"
+                className="h-12 px-4 rounded-full bg-secondary hover:opacity-90 active:scale-95 flex items-center justify-center gap-2 transition-all"
+                data-testid="button-share"
               >
-                <QrCode className="h-5 w-5" />
+                <Share2 className="h-5 w-5" />
               </button>
             </div>
           </div>
         </BlurCard>
 
         <div className="space-y-4">
-          <h3 className="title-3 px-2">Voice Demos</h3>
+          <div className="flex items-center justify-between px-2">
+            <h3 className="title-3">Voice Demos</h3>
+            <span className="caption-1 text-muted-foreground">{demos.length} total</span>
+          </div>
 
-          {demos.map((demo, index) => {
-            const isPlaying = currentDemo === index;
-            return (
-              <BlurCard
-                key={demo.id}
-                className={isPlaying ? 'ring-2 ring-primary/50' : ''}
-              >
-                <div className="flex items-center gap-4">
-                  <button
-                    onClick={() => setCurrentDemo(isPlaying ? null : index)}
-                    className={`flex-shrink-0 h-14 w-14 rounded-full flex items-center justify-center transition-all ${
-                      isPlaying
-                        ? 'bg-primary text-primary-foreground scale-110'
-                        : 'bg-primary/10 dark:bg-primary/20 text-primary active:scale-95'
-                    }`}
-                    data-testid={`button-play-${demo.id}`}
-                    aria-label={isPlaying ? "Pause" : "Play"}
-                  >
-                    {isPlaying ? (
-                      <Pause className="h-6 w-6" />
-                    ) : (
-                      <Play className="h-6 w-6 ml-0.5" />
-                    )}
-                  </button>
-
-                  <div className="flex-1 min-w-0">
-                    <div className="headline mb-1">{demo.title}</div>
-                    <div className="flex items-center gap-2 subheadline text-muted-foreground">
-                      <span>{demo.duration}</span>
-                      <span>·</span>
-                      <span>{demo.plays} plays</span>
-                    </div>
-                  </div>
-                </div>
-
-                {isPlaying && (
-                  <div className="mt-4">
-                    <div className="h-1 bg-secondary rounded-full overflow-hidden">
-                      <div className="h-full w-1/3 bg-primary rounded-full" />
-                    </div>
-                  </div>
-                )}
-              </BlurCard>
-            );
-          })}
+          <div className="space-y-3">
+            {demos.map((demo, index) => {
+              const isPlaying = currentDemo === index;
+              return (
+                <InlineAudioPlayer
+                  key={demo.id}
+                  title={demo.title}
+                  duration={demo.duration}
+                  plays={demo.plays}
+                  isPlaying={isPlaying}
+                  onToggle={() => setCurrentDemo(isPlaying ? null : index)}
+                />
+              );
+            })}
+          </div>
+        </div>
         </div>
       </div>
-    </div>
+    </PageContainer>
   );
 }

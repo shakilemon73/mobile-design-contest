@@ -1,6 +1,7 @@
 import { Mic, Briefcase, ChevronRight } from "lucide-react";
 import logoVertical from "@assets/logo_vertical_1760520832507.png";
 import { BlurCard } from "@/components/ios/BlurCard";
+import { PageContainer } from "@/components/ios/PageContainer";
 
 interface RoleSelectorProps {
   onSelectRole: (role: "artist" | "producer") => void;
@@ -8,8 +9,9 @@ interface RoleSelectorProps {
 
 export default function RoleSelector({ onSelectRole }: RoleSelectorProps) {
   return (
-    <div className="min-h-screen flex items-center justify-center p-6 bg-background dark:bg-background">
-      <div className="w-full max-w-md space-y-16 animate-in fade-in duration-700">
+    <PageContainer>
+      <div className="min-h-screen flex items-center justify-center p-6">
+        <div className="w-full space-y-16 animate-in fade-in duration-700">
         <div className="text-center space-y-8">
           <img 
             src={logoVertical} 
@@ -72,10 +74,11 @@ export default function RoleSelector({ onSelectRole }: RoleSelectorProps) {
           </BlurCard>
         </div>
 
-        <p className="text-center caption-1 text-muted-foreground px-4">
-          By continuing, you agree to AudioTag's Terms of Service and Privacy Policy
-        </p>
+          <p className="text-center caption-1 text-muted-foreground px-4">
+            By continuing, you agree to AudioTag's Terms of Service and Privacy Policy
+          </p>
+        </div>
       </div>
-    </div>
+    </PageContainer>
   );
 }

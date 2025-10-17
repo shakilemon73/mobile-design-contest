@@ -1,22 +1,38 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Play, Pause } from "lucide-react";
 
 interface InlineAudioPlayerProps {
+  id?: string;
   title: string;
   duration: string;
   plays?: string;
   isPlaying?: boolean;
   onToggle?: () => void;
+  onPlaybackStart?: (id: string) => void;
+}
+
+// Generate deterministic waveform based on ID
+function generateWaveform(id: string = "default", bars: number = 50): number[] {
+  const seed = id.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+  const waveform: number[] = [];
+  for (let i = 0; i < bars; i++) {
+    const pseudoRandom = Math.sin(seed + i * 0.5) * 10000;
+    waveform.push((Math.abs(pseudoRandom) % 40) + 20);
+  }
+  return waveform;
 }
 
 export function InlineAudioPlayer({ 
+  id = "default",
   title, 
   duration, 
   plays,
   isPlaying = false,
-  onToggle 
+  onToggle,
+  onPlaybackStart 
 }: InlineAudioPlayerProps) {
   const [progress, setProgress] = useState(33);
+  const waveform = useMemo(() => generateWaveform(id), [id]);
 
   return (
     <div className={`group rounded-2xl p-4 transition-all ${
@@ -26,7 +42,10 @@ export function InlineAudioPlayer({
     }`}>
       <div className="flex items-center gap-4">
         <button
-          onClick={onToggle}
+          onClick={() => {
+            if (onToggle) onToggle();
+            if (!isPlaying && onPlaybackStart) onPlaybackStart(id);
+          }}
           className={`flex-shrink-0 h-12 w-12 rounded-full flex items-center justify-center transition-all ${
             isPlaying
               ? 'bg-primary text-primary-foreground scale-105'
@@ -69,7 +88,7 @@ export function InlineAudioPlayer({
 
       {/* Waveform visualization */}
       <div className="mt-3 flex items-center gap-0.5 h-8">
-        {Array.from({ length: 50 }).map((_, i) => (
+        {waveform.map((height, i) => (
           <div
             key={i}
             className={`flex-1 rounded-full transition-all ${
@@ -78,7 +97,7 @@ export function InlineAudioPlayer({
                 : 'bg-muted-foreground/20'
             }`}
             style={{
-              height: `${Math.random() * 60 + 20}%`,
+              height: `${height}%`,
             }}
           />
         ))}

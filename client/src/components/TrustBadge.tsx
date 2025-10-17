@@ -1,11 +1,14 @@
 import { Shield, Star, TrendingUp, Zap } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 interface TrustBadgeProps {
   type: "verified" | "featured" | "top" | "pro";
   className?: string;
+  size?: "sm" | "md";
+  tooltip?: string;
 }
 
-export function TrustBadge({ type, className = "" }: TrustBadgeProps) {
+export function TrustBadge({ type, className = "", size = "md", tooltip }: TrustBadgeProps) {
   const badges = {
     verified: {
       icon: Shield,
@@ -36,10 +39,25 @@ export function TrustBadge({ type, className = "" }: TrustBadgeProps) {
   const badge = badges[type];
   const Icon = badge.icon;
 
-  return (
-    <div className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full ${badge.bg} ${className}`}>
-      <Icon className={`h-3.5 w-3.5 ${badge.color}`} />
-      <span className={`text-xs font-medium ${badge.color}`}>{badge.label}</span>
+  const iconSize = size === "sm" ? "h-3 w-3" : "h-3.5 w-3.5";
+  const textSize = size === "sm" ? "text-[10px]" : "text-xs";
+  const padding = size === "sm" ? "px-2 py-0.5" : "px-2.5 py-1";
+
+  const BadgeContent = (
+    <div className={`inline-flex items-center gap-1.5 ${padding} rounded-full ${badge.bg} ${className}`}>
+      <Icon className={`${iconSize} ${badge.color}`} />
+      <span className={`${textSize} font-medium ${badge.color}`}>{badge.label}</span>
     </div>
   );
+
+  if (tooltip) {
+    return (
+      <Tooltip>
+        <TooltipTrigger asChild>{BadgeContent}</TooltipTrigger>
+        <TooltipContent>{tooltip}</TooltipContent>
+      </Tooltip>
+    );
+  }
+
+  return BadgeContent;
 }

@@ -114,11 +114,13 @@ export default function ProfilePage() {
               return (
                 <InlineAudioPlayer
                   key={demo.id}
+                  id={demo.id}
                   title={demo.title}
                   duration={demo.duration}
                   plays={demo.plays}
                   isPlaying={isPlaying}
                   onToggle={() => setCurrentDemo(isPlaying ? null : index)}
+                  onPlaybackStart={(id) => console.log(`Started playing demo ${id}`)}
                 />
               );
             })}

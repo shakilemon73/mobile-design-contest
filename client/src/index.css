@@ -48,7 +48,7 @@
 
   --popover-border: 240 5% 84%;
 
-  --primary: 211 100% 50%;
+  --primary: 333 72% 54%;
 
   --primary-foreground: 0 0% 100%;
 
@@ -59,6 +59,14 @@
   --muted: 0 0% 96%;
 
   --muted-foreground: 0 0% 45%;
+
+  --brand-coral: 9 87% 70%;
+
+  --brand-yellow: 43 100% 64%;
+
+  --brand-green: 103 30% 63%;
+
+  --brand-cyan: 188 65% 48%;
 
   --accent: 188 65% 88%;
 
@@ -166,7 +174,7 @@
 
   --popover-border: 240 6% 18%;
 
-  --primary: 211 100% 50%;
+  --primary: 333 72% 54%;
 
   --primary-foreground: 0 0% 100%;
 
@@ -177,6 +185,14 @@
   --muted: 0 0% 15%;
 
   --muted-foreground: 0 0% 60%;
+
+  --brand-coral: 9 87% 70%;
+
+  --brand-yellow: 43 100% 64%;
+
+  --brand-green: 103 30% 63%;
+
+  --brand-cyan: 188 65% 48%;
 
   --accent: 188 65% 22%;
 
@@ -384,11 +400,15 @@
   }
 
   .ios-button-primary {
-    @apply bg-primary text-primary-foreground hover:opacity-90 active:scale-95;
+    @apply bg-gradient-to-r from-primary to-[hsl(var(--brand-coral))] text-primary-foreground hover:opacity-90 active:scale-95;
   }
 
   .ios-button-secondary {
     @apply bg-secondary text-secondary-foreground hover:opacity-90 active:scale-95;
+  }
+
+  .ios-button-cyan {
+    @apply bg-[hsl(var(--brand-cyan))] text-white hover:opacity-90 active:scale-95;
   }
 
   .ios-input {
